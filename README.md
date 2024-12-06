@@ -5,8 +5,12 @@
 ## Как запустить проект
 
 ```bash
-   git clone https://github.com/Bronislavson/laravel-docker-project
+   git clone https://github.com/Bronislavson/future-test-laravel
    cd laravel-docker-project
+```
+
+```bash
+   cd future-test-laravel
 ```
 
 1. Поднимите контейнеры Docker:
@@ -16,7 +20,7 @@ docker-compose up --build
 
 2. Выполните миграции:
 ```bash
-docker exec -it project_app
+docker exec -it project_app bash
 ```
 ```bash
 php artisan migrate
@@ -32,20 +36,20 @@ composer.json: зависимости Laravel.
 
 1. Общий доступ к проекту http://localhost:8876/
 2. swagger документация http://localhost:8876/api/documentation
-3. насроена работа с БД в phpMyAdmin http://localhost:9292/
+3. настроена работа с БД в phpMyAdmin http://localhost:9292/
 
 ## Тестирование
 
-0. Предвариетльно через Seeder создал фейковые данные,  
+1. Предвариетльно через Seeder создал фейковые данные,  
 если необходимо запуск сидера:
 
 ```bash
 php artisan db:seed
 ```
 
-1. Postman. Ручное добавление и проверка request и response
+2. Postman. Ручное добавление и проверка request и response
 
-2. Написаны Функциональные и Юнит тесты. Для запуска:
+3. Написаны Функциональные и Юнит тесты. Для запуска:
 
 ```bash
 php artisan test
@@ -67,10 +71,10 @@ php artisan test
 1.5. **DELETE /api/v1/notebooks/{id}/**
 
 ### для сущности 'notebook_photos':
-1.1. **GET /api/v1/notebook-photos/**
-1.2. **POST /api/v1/notebook-photos/**
-1.3. **GET /api/v1/notebook-photos/{id}/**
-1.4. **DELETE /api/v1/notebook-photos/{id}/**
+1.1. **GET /api/v1/notebook-photos/**  
+1.2. **POST /api/v1/notebook-photos/**  
+1.3. **GET /api/v1/notebook-photos/{id}/**  
+1.4. **DELETE /api/v1/notebook-photos/{id}/**  
 
 #### Хранение файлов фотографий:
 в директории /public/notebook_photos/  

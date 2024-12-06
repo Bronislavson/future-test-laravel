@@ -4,26 +4,39 @@
 
 ## Как запустить проект
 
+1. Клонируйте репозиторий:
 ```bash
    git clone https://github.com/Bronislavson/future-test-laravel
 ```
-
+2. Перейдите в директорию проекта:
 ```bash
    cd future-test-laravel
 ```
 
-1. Поднимите контейнеры Docker:
+3. Сборка контейнеров Docker:
 ```bash
-docker-compose up --build
+docker-compose build
 ```
 
-2. Выполните миграции:
+4. Поднимите контейнеры Docker:
+```bash
+docker-compose up
+```
+
+5. Войдите в контейнер с проектом:
 ```bash
 docker exec -it project_app bash
-```
+``` 
+
+6. Проверка зависмостей:
+```bash
+composer install
+```  
+
+7. Выполните миграции:
 ```bash
 php artisan migrate
-```
+```  
 
 ## Структура проекта
 Dockerfile: описание Docker-образа для Laravel.  

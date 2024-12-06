@@ -6,7 +6,6 @@
 
 ```bash
    git clone https://github.com/Bronislavson/future-test-laravel
-   cd laravel-docker-project
 ```
 
 ```bash
@@ -54,8 +53,6 @@ php artisan db:seed
 ```bash
 php artisan test
 ```
-
-## Так же реализовано условие запуска финального билда из Docker контейнера
 
 ## Примечание:
 

@@ -1,0 +1,781 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Notebooks API",
+        "description": "API для управления записями в записной книжке",
+        "version": "1.0.0"
+    },
+    "paths": {
+        "/api/v1/notebook-photos": {
+            "get": {
+                "tags": [
+                    "Notebook Photos"
+                ],
+                "summary": "Получение списка фотографий",
+                "operationId": "3f3e21821318ebbad114f55ea967fae6",
+                "responses": {
+                    "200": {
+                        "description": "Список фотографий",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/NotebookPhoto"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Notebook Photos"
+                ],
+                "summary": "Загрузка фотографии",
+                "operationId": "b85ab77ec7f952b9c05a7895d787bb89",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "properties": {
+                                    "photo": {
+                                        "type": "file"
+                                    },
+                                    "notebook_id": {
+                                        "type": "integer"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Фотокарточка к записи добавлена",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string"
+                                        },
+                                        "notebook_photo": {
+                                            "$ref": "#/components/schemas/NotebookPhoto"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/notebook-photos/{id}": {
+            "get": {
+                "tags": [
+                    "Notebook Photos"
+                ],
+                "summary": "Получение фотографии по ID",
+                "operationId": "135421723a3deea51b23c1656e56cc31",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Фотография найдена",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/NotebookPhoto"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Фотография не найдена",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "boolean"
+                                        },
+                                        "message": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Notebook Photos"
+                ],
+                "summary": "Удаление фотографии по ID",
+                "operationId": "6e0ff60393c2113010990a7a0008213a",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Фотография удалена",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "boolean"
+                                        },
+                                        "message": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Фотография не найдена",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "boolean"
+                                        },
+                                        "message": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/notebooks": {
+            "get": {
+                "tags": [
+                    "Notebooks"
+                ],
+                "summary": "Получение списка записей",
+                "operationId": "059434c67c7fdbca57ddbbdc91247f4d",
+                "parameters": [
+                    {
+                        "name": "limit",
+                        "in": "query",
+                        "description": "Количество записей на странице",
+                        "required": false,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Список записей успешно получен",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "description": "Информация о записной книжке",
+                                            "properties": {
+                                                "id": {
+                                                    "description": "Уникальный идентификатор записи",
+                                                    "type": "integer",
+                                                    "example": 31
+                                                },
+                                                "full_name": {
+                                                    "description": "Полное имя пользователя",
+                                                    "type": "string",
+                                                    "example": "Bella Little"
+                                                },
+                                                "company": {
+                                                    "description": "Название компании пользователя",
+                                                    "type": "string",
+                                                    "example": "Hoppe Group"
+                                                },
+                                                "email": {
+                                                    "description": "Электронная почта пользователя",
+                                                    "type": "string",
+                                                    "format": "email",
+                                                    "example": "doconnell@example.com"
+                                                },
+                                                "phone": {
+                                                    "description": "Номер телефона пользователя",
+                                                    "type": "string",
+                                                    "example": "+19033972169"
+                                                },
+                                                "date_of_birth": {
+                                                    "description": "Дата рождения пользователя",
+                                                    "type": "string",
+                                                    "format": "date",
+                                                    "example": "2016-07-30"
+                                                },
+                                                "photos": {
+                                                    "description": "Список фотографий",
+                                                    "type": "array",
+                                                    "items": {
+                                                        "properties": {
+                                                            "id": {
+                                                                "description": "Идентификатор фотографии",
+                                                                "type": "integer",
+                                                                "example": 13
+                                                            },
+                                                            "img": {
+                                                                "description": "Путь к фотографии",
+                                                                "type": "string",
+                                                                "format": "uri",
+                                                                "example": "/notebook_photos/ZIemeOuDIxpN4.jpg"
+                                                            }
+                                                        },
+                                                        "type": "object"
+                                                    }
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Notebooks"
+                ],
+                "summary": "Создание новой записи",
+                "operationId": "32cab87dfe8807692d095c91e3c59b20",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "full_name",
+                                    "email",
+                                    "phone"
+                                ],
+                                "properties": {
+                                    "full_name": {
+                                        "description": "Полное имя",
+                                        "type": "string"
+                                    },
+                                    "company": {
+                                        "description": "Название компании",
+                                        "type": "string"
+                                    },
+                                    "email": {
+                                        "description": "Электронная почта",
+                                        "type": "string",
+                                        "format": "email"
+                                    },
+                                    "phone": {
+                                        "description": "Номер телефона",
+                                        "type": "string"
+                                    },
+                                    "date_of_birth": {
+                                        "description": "Дата рождения",
+                                        "type": "string",
+                                        "format": "date"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Новая запись в книжке создана",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "description": "Новая запись в книжке создана",
+                                            "type": "string"
+                                        },
+                                        "notebook": {
+                                            "required": [
+                                                "full_name",
+                                                "email",
+                                                "phone"
+                                            ],
+                                            "properties": {
+                                                "id": {
+                                                    "description": "Уникальный идентификатор записи",
+                                                    "type": "integer",
+                                                    "example": 101
+                                                },
+                                                "full_name": {
+                                                    "description": "Полное имя",
+                                                    "type": "string"
+                                                },
+                                                "company": {
+                                                    "description": "Название компании",
+                                                    "type": "string"
+                                                },
+                                                "email": {
+                                                    "description": "Электронная почта",
+                                                    "type": "string",
+                                                    "format": "email"
+                                                },
+                                                "phone": {
+                                                    "description": "Номер телефона",
+                                                    "type": "string"
+                                                },
+                                                "date_of_birth": {
+                                                    "description": "Дата рождения",
+                                                    "type": "string",
+                                                    "format": "date"
+                                                },
+                                                "created_at": {
+                                                    "description": "Дата создания",
+                                                    "type": "string",
+                                                    "format": "date-time"
+                                                },
+                                                "updated_at": {
+                                                    "description": "Дата обнавления",
+                                                    "type": "string",
+                                                    "format": "date-time"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/notebooks/{id}": {
+            "get": {
+                "tags": [
+                    "Notebooks"
+                ],
+                "summary": "Получение записи по ID",
+                "operationId": "c8ca2bc743752c1be1d9877c3f4ee531",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID записи",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "запись успешно получена",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "description": "Информация о записной книжке",
+                                            "properties": {
+                                                "id": {
+                                                    "description": "Уникальный идентификатор записи",
+                                                    "type": "integer",
+                                                    "example": 31
+                                                },
+                                                "full_name": {
+                                                    "description": "Полное имя пользователя",
+                                                    "type": "string",
+                                                    "example": "Bella Little"
+                                                },
+                                                "company": {
+                                                    "description": "Название компании пользователя",
+                                                    "type": "string",
+                                                    "example": "Hoppe Group"
+                                                },
+                                                "email": {
+                                                    "description": "Электронная почта пользователя",
+                                                    "type": "string",
+                                                    "format": "email",
+                                                    "example": "doconnell@example.com"
+                                                },
+                                                "phone": {
+                                                    "description": "Номер телефона пользователя",
+                                                    "type": "string",
+                                                    "example": "+19033972169"
+                                                },
+                                                "date_of_birth": {
+                                                    "description": "Дата рождения пользователя",
+                                                    "type": "string",
+                                                    "format": "date",
+                                                    "example": "2016-07-30"
+                                                },
+                                                "photos": {
+                                                    "description": "Список фотографий",
+                                                    "type": "array",
+                                                    "items": {
+                                                        "properties": {
+                                                            "id": {
+                                                                "description": "Идентификатор фотографии",
+                                                                "type": "integer",
+                                                                "example": 13
+                                                            },
+                                                            "img": {
+                                                                "description": "Путь к фотографии",
+                                                                "type": "string",
+                                                                "format": "uri",
+                                                                "example": "/notebook_photos/ZIemeOuDIxpN4.jpg"
+                                                            }
+                                                        },
+                                                        "type": "object"
+                                                    }
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Запись не найдена",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "boolean"
+                                        },
+                                        "message": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Notebooks"
+                ],
+                "summary": "Обновление записи",
+                "operationId": "c39caf00e12e8551e924a679172acdec",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID записи",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "full_name",
+                                    "email",
+                                    "phone"
+                                ],
+                                "properties": {
+                                    "full_name": {
+                                        "description": "Полное имя",
+                                        "type": "string"
+                                    },
+                                    "company": {
+                                        "description": "Название компании",
+                                        "type": "string"
+                                    },
+                                    "email": {
+                                        "description": "Электронная почта",
+                                        "type": "string",
+                                        "format": "email"
+                                    },
+                                    "phone": {
+                                        "description": "Номер телефона",
+                                        "type": "string"
+                                    },
+                                    "date_of_birth": {
+                                        "description": "Дата рождения",
+                                        "type": "string",
+                                        "format": "date"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Запись обновилась",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "description": "Запись обновилась",
+                                            "type": "string"
+                                        },
+                                        "notebook": {
+                                            "required": [
+                                                "full_name",
+                                                "email",
+                                                "phone"
+                                            ],
+                                            "properties": {
+                                                "id": {
+                                                    "description": "Уникальный идентификатор записи",
+                                                    "type": "integer",
+                                                    "example": 31
+                                                },
+                                                "full_name": {
+                                                    "description": "Полное имя",
+                                                    "type": "string"
+                                                },
+                                                "company": {
+                                                    "description": "Название компании",
+                                                    "type": "string"
+                                                },
+                                                "email": {
+                                                    "description": "Электронная почта",
+                                                    "type": "string",
+                                                    "format": "email"
+                                                },
+                                                "phone": {
+                                                    "description": "Номер телефона",
+                                                    "type": "string"
+                                                },
+                                                "date_of_birth": {
+                                                    "description": "Дата рождения",
+                                                    "type": "string",
+                                                    "format": "date"
+                                                },
+                                                "created_at": {
+                                                    "description": "Дата создания",
+                                                    "type": "string",
+                                                    "format": "date-time"
+                                                },
+                                                "updated_at": {
+                                                    "description": "Дата обнавления",
+                                                    "type": "string",
+                                                    "format": "date-time"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Запись не найдена",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Notebooks"
+                ],
+                "summary": "Удаление записи",
+                "operationId": "a37cc9cc8c43ca29c9a45b43e86f0d34",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID записи",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "Запись удалена"
+                    },
+                    "404": {
+                        "description": "Запись не найдена",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "boolean"
+                                        },
+                                        "message": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "Notebook": {
+                "title": "Notebook",
+                "description": "Модель записной книжки",
+                "properties": {
+                    "id": {
+                        "description": "Уникальный идентификатор записи",
+                        "type": "integer",
+                        "example": 31
+                    },
+                    "full_name": {
+                        "description": "Полное имя пользователя",
+                        "type": "string",
+                        "example": "Bella Little"
+                    },
+                    "company": {
+                        "description": "Название компании пользователя",
+                        "type": "string",
+                        "example": "Hoppe Group"
+                    },
+                    "email": {
+                        "description": "Электронная почта пользователя",
+                        "type": "string",
+                        "format": "email",
+                        "example": "doconnellexample.com"
+                    },
+                    "phone": {
+                        "description": "Номер телефона пользователя",
+                        "type": "string",
+                        "example": "+19033972169"
+                    },
+                    "date_of_birth": {
+                        "description": "Дата рождения пользователя",
+                        "type": "string",
+                        "format": "date",
+                        "example": "2016-07-30"
+                    },
+                    "photos": {
+                        "description": "Список фотографий",
+                        "type": "array",
+                        "items": {
+                            "properties": {
+                                "id": {
+                                    "description": "Идентификатор фотографии",
+                                    "type": "integer",
+                                    "example": 13
+                                },
+                                "img": {
+                                    "description": "Путь к фотографии",
+                                    "type": "string",
+                                    "format": "uri",
+                                    "example": "/notebook_photos/ZIemeOuDIxpN4.jpg"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                },
+                "type": "object"
+            },
+            "NotebookPhoto": {
+                "title": "NotebookPhoto",
+                "required": [
+                    "notebook_id",
+                    "photo_path"
+                ],
+                "properties": {
+                    "id": {
+                        "description": "Идентификатор",
+                        "type": "integer",
+                        "example": 31
+                    },
+                    "notebook_id": {
+                        "description": "Идентификатор записной книжки",
+                        "type": "integer",
+                        "example": 22
+                    },
+                    "photo_path": {
+                        "description": "Путь к фотографии",
+                        "type": "string"
+                    },
+                    "created_at": {
+                        "description": "Дата создания",
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "updated_at": {
+                        "description": "Дата обновления",
+                        "type": "string",
+                        "format": "date-time"
+                    }
+                },
+                "type": "object"
+            }
+        }
+    },
+    "tags": [
+        {
+            "name": "Notebooks",
+            "description": "Операции с записями в записной книжке"
+        },
+        {
+            "name": "Notebook Photos",
+            "description": "Notebook Photos"
+        }
+    ]
+}

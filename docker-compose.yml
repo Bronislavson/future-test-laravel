@@ -1,0 +1,60 @@
+version: '3.8'
+
+services:
+  nginx:
+    image: nginx:latest
+    volumes:
+      - ./:/var/www
+      - ./_docker/nginx/conf.d/:/etc/nginx/conf.d
+    ports:
+      - "8876:80"
+    depends_on:
+      - app
+    container_name: project_nginx
+  
+  app:
+    build:
+      context: .
+      dockerfile: _docker/app/Dockerfile
+      args: 
+        UID: 1000 # Укажите ваш локальный UID
+        GID: 1000 # Укажите ваш локальный GID
+    volumes:
+      - ./:/var/www
+      - ./storage:/var/www/storage
+    environment:
+      UID: 1000 # UID вашего пользователя
+      GID: 1000 # GID вашей группы
+    depends_on:
+      - db
+    container_name: project_app
+
+  db:
+    image: mysql:8.0
+    restart: always
+    volumes:
+      - ./tmp/db:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: root # Пароль для root пользователя
+      MYSQL_DATABASE: future    # Название базы данных
+      MYSQL_USER: admin         # Новый пользователь MySQL
+      MYSQL_PASSWORD: asdfghjkl # Пароль нового пользователя
+    ports:
+      - "8101:3306"
+    command: mysqld --character-set-server=utf8 --collation-server=utf8_unicode_ci
+    container_name: project_db
+
+  phpmyadmin:
+    image: phpmyadmin:latest
+    restart: always
+    ports:
+      - 9292:80
+    environment:
+      PMA_HOST: db
+      PMA_PORT: "3306"
+      PMA_USER: admin         # Имя нового пользователя
+      PMA_PASSWORD: asdfghjkl # Пароль нового пользователя
+    container_name: project_phpmyadmin
+
+
+     

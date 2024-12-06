@@ -20,7 +20,7 @@ docker-compose build
 
 4. Поднимите контейнеры Docker:
 ```bash
-docker-compose up
+docker-compose up -d
 ```
 
 5. Войдите в контейнер с проектом:
